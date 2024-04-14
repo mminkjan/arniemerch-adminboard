@@ -1,0 +1,22 @@
+.container {
+  background-color: transparent;
+  padding: 20px;
+  padding-left: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 10px;
+}
+
+.container:hover {
+  background-color: var(--highlight);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-weight: 700;
+}

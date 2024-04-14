@@ -1,0 +1,26 @@
+
+
+:root {
+  --bg: #28313C;
+  --bgSoft: #3D4A5A;
+  --text: white;
+  --textSoft: #babdc4;
+  --highlight: #86878E;
+  font-family: 'Roboto Mono';
+}
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+a{
+  color: inherit;
+  text-decoration: none;
+}
