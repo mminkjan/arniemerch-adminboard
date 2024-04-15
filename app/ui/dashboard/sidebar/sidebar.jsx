@@ -13,7 +13,7 @@ const menuItems =
         icon: <AiOutlineDashboard />
       },
       {
-        title: "Crew",
+        title: "Personeel",
         path: "/dashboard/crew",
         icon: <AiOutlineTeam />
       },
@@ -23,7 +23,7 @@ const menuItems =
         icon: <AiOutlineSchedule />
       },
       {
-        title: "Payments",
+        title: "Betalingen",
         path: "/dashboard/payments",
         icon: <AiOutlineFieldTime />
       }
@@ -38,7 +38,7 @@ const Sidebar = () => {
       <Image className={styles.userImage} src="/noavatar.png" width="50" height="50" />
       <div className={styles.userDetail}>
         <span className={styles.userName}>Arnoud Maas</span>
-        <span className={styles.userTitle}>Administrator</span>
+        <span className={styles.userTitle}>CEO</span>
       </div>
       </div>
       <ul className={styles.list}>

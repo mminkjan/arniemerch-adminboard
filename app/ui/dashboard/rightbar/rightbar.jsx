@@ -35,7 +35,7 @@ const showItems =
 const Rightbar = () => {
   return (
     <div className={styles.container}>
-       <h2 className={styles.title}>Upcomming Shows</h2>
+       <h2 className={styles.title}>Binnenkort</h2>
       <ul className={styles.items}>
       {showItems.list.map((show) => (
         <ShowLink data={show} key={show.title}></ShowLink>

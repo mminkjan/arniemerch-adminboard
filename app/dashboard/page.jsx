@@ -9,8 +9,6 @@ const Dashboard = () => {
       <div className={styles.main}>
         <div className={styles.cards}>
           <Card />
-          {/* <Card /> */}
-          {/* <Card /> */}
         </div>
         <Transactions />
       </div>

@@ -3,9 +3,11 @@
 :root {
   --bg: #28313C;
   --bgSoft: #3D4A5A;
+  --bgSofter: #5d5d63;
   --text: white;
   --textSoft: #babdc4;
   --highlight: #86878E;
+  --dark: #161B20;
   font-family: 'Roboto Mono';
 }
 

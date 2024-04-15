@@ -9,9 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/base": "^5.0.0-beta.40",
+    "@mui/icons-material": "^5.15.15",
+    "@mui/system": "^5.15.15",
     "@next/eslint-plugin-next": "14.0.1",
     "next": "14.0.1",
     "react": "18",
+    "react-datepicker": "^6.7.1",
     "react-dom": "18",
     "react-icons": "^4.11.0"
   },

@@ -12,10 +12,6 @@ const Navbar = () => {
     <div className={styles.container}>
       <div className={styles.title}>{pathName.split("/").pop()}</div>
       <div className={styles.menu}>
-        <div className={styles.search}>
-          <AiOutlineSearch />
-          <input type='text'  placeholder='Search...' className={styles.input}/>
-        </div>
         <div className={styles.icons}>
           <AiOutlineNotification size={20} />
           <button className={styles.button}>

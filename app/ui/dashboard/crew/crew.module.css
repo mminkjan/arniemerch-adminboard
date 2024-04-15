@@ -1,0 +1,66 @@
+.container {
+  background-color: var(--bgSoft);
+
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.addButton {
+  padding: 10px;
+  background-color: var(--highlight);
+  color: var(--text);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.tablecontainer {
+  margin-top: 20px;
+  max-width: 100%;
+  max-height: 600px;
+  overflow-y: auto;
+  overflow-x: auto;
+  color: var(--dark);
+}
+
+.mtable {
+  table-layout: auto;
+  width:max-content;
+  background-color: var(--textSoft);
+  margin-bottom: 10px;
+  border-collapse: collapse;
+}
+
+.mtable td {
+  padding: 10px;
+  min-width: 100px;
+}
+
+.mtable tr {
+  border: 1px solid var(--dark);
+}
+
+.mtable thead tr {
+  font-weight: bold;
+  background-color: var(--highlight);
+}
+
+.button {
+  padding: 5px;
+  width: 40px;
+  background-color: rgb(231, 97, 97);
+  border: none;
+  border-radius: 5px;
+}
+
+.active {
+  background-color: rgb(68, 132, 68);
+}
+

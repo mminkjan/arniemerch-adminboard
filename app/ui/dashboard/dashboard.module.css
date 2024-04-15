@@ -1,16 +1,19 @@
 .container{
   display: flex;
+  max-width: 100%;
 }
 
 .menu {
   flex: 1;
-  background-color: var(--bgSoft);
+  /* background-color: var(--bgSoft); */
+  background-color: #161B20;
   padding: 20px;
 }
 
 .content {
   flex: 4;
   padding: 20px;
+  max-width: 80%;
 }
 
 .wrapper {

@@ -4,14 +4,14 @@ import { mockDataTeam } from '@/mockdata';
 const Transactions = () => {
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Latest Payments</h2>
+      <h2 className={styles.title}>Recente Betalingen</h2>
       <table className={styles.table}>
         <thead>
           <tr>
-            <td>Name</td>
-            <td>Amount</td>
-            <td>Bank Account</td>
-            <td>Date</td>
+            <td>Naam</td>
+            <td>Bedrag</td>
+            <td>Rekening</td>
+            <td>Datum</td>
           </tr>
         </thead>
         <tbody>
