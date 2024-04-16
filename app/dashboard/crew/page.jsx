@@ -1,12 +1,27 @@
-
+"use client"
 import styles from '@/app/ui/dashboard/crew/crew.module.css'
 import Search from '@/app/ui/dashboard/search/search';
 import Link from 'next/link';
 import { mockDataTeam } from '@/mockdata';
 import Pagination from '@/app/ui/dashboard/pagination/pagination';
 
+import React from 'react';
+import { useEffect } from 'react';
+
 
 const CrewPage = () => {
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const [crewLength, setCrewLength] = React.useState(0);
+
+  useEffect(() => {
+    const length = mockDataTeam.length;
+    setCrewLength(length)
+    return () => {};
+  }, []);
+
+  const emptyRows =
+  page > 0 ? Math.max(0, (1 + page) * rowsPerPage - mockDataTeam.length) : 0;
 
   return (
     <div className={styles.container}>
@@ -36,7 +51,9 @@ const CrewPage = () => {
             </tr>
           </thead>
           <tbody>
-          {mockDataTeam.map((id) => (
+          {(rowsPerPage  > 0 ?
+          mockDataTeam.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+          : mockDataTeam).map((id) => (
             <tr key={id.id}>
               <td className={styles.voornaam}>{id.voornaam}</td>
               <td className={styles.achternaam}>{id.achternaam}</td>
@@ -64,13 +81,27 @@ const CrewPage = () => {
               </td>
             </tr>
           ))}
+          {emptyRows > 0 && (
+              <tr style={{ height: 46.5 * emptyRows }}>
+              <td colSpan={3} aria-hidden />
+            </tr>
+          )}
           </tbody>
         </table>
       </div>
       <table>
         <tbody>
           <tr>
-            <Pagination />
+            <Pagination 
+              movePage={(newPage) => setPage(newPage)}
+              setRows={(rows) => {
+                setRowsPerPage(rows);
+                setPage(0);
+              }}
+              page={page}
+              rowsPerPage={rowsPerPage}
+              crewLength={crewLength}
+            />
           </tr>
         </tbody>
       </table>

@@ -16,21 +16,21 @@ const Transactions = () => {
         </thead>
         <tbody>
           <tr>
-            <td>{mockDataTeam[0].name}</td>
+            <td>{mockDataTeam[0].achternaam}</td>
             <td>€135,23</td>
-            <td>{mockDataTeam[0].bankaccount}</td>
+            <td>{mockDataTeam[0].IBAN}</td>
             <td>14/04/24</td>
           </tr>
           <tr>
-            <td>{mockDataTeam[1].name}</td>
+            <td>{mockDataTeam[1].achternaam}</td>
             <td>€175,45</td>
-            <td>{mockDataTeam[0].bankaccount}</td>
+            <td>{mockDataTeam[0].IBAN}</td>
             <td>14/04/24</td>
           </tr>
           <tr>
-            <td>{mockDataTeam[2].name}</td>
+            <td>{mockDataTeam[2].achternaam}</td>
             <td>€119,35</td>
-            <td>{mockDataTeam[0].bankaccount}</td>
+            <td>{mockDataTeam[0].IBAN}</td>
             <td>14/04/24</td>
           </tr>
         </tbody>

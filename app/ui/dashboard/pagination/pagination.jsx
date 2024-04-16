@@ -10,24 +10,22 @@ import LastPageRoundedIcon from '@mui/icons-material/LastPageRounded';
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 
-export const Pagination = () => {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+export const Pagination = ({movePage, setRows, page, rowsPerPage, crewLength}) => { 
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+    movePage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
+    let rows = event.target.value;
+    setRows(parseInt(rows, 10));
   };
 
   return (
     <CustomTablePagination
-      rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+      rowsPerPageOptions={[10, 25, 50, { label: 'All', value: -1 }]}
       colSpan={3}
-      count={13}
+      count={crewLength}
       rowsPerPage={rowsPerPage}
       page={page}
       slotProps={{
