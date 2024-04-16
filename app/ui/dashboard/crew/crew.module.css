@@ -40,7 +40,7 @@
 
 .mtable td {
   padding: 10px;
-  min-width: 100px;
+  min-width: 30px;
 }
 
 .mtable tr {
@@ -50,6 +50,22 @@
 .mtable thead tr {
   font-weight: bold;
   background-color: var(--highlight);
+}
+
+
+.editLink{
+  display: flex;
+  background-color: transparent;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 5px;
+}
+
+.editLink:hover {
+  background-color: var(--bgSoft);
 }
 
 .button {
@@ -63,4 +79,5 @@
 .active {
   background-color: rgb(68, 132, 68);
 }
+
 

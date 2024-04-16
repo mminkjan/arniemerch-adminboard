@@ -5,8 +5,11 @@ import Link from 'next/link';
 import { mockDataTeam } from '@/mockdata';
 import Pagination from '@/app/ui/dashboard/pagination/pagination';
 
+import { AiFillEdit } from "react-icons/ai";
+
 import React from 'react';
 import { useEffect } from 'react';
+import { StickyNote2 } from '@mui/icons-material';
 
 
 const CrewPage = () => {
@@ -27,7 +30,7 @@ const CrewPage = () => {
     <div className={styles.container}>
       <div className={styles.top}>
         <Search placeholder="Search crew member"/>
-        <Link href="/dashboard/users/add">
+        <Link href="/dashboard/crew/add">
           <button className={styles.addButton}>Voeg toe</button>
         </Link>
       </div>
@@ -35,6 +38,7 @@ const CrewPage = () => {
         <table className={styles.mtable}>
           <thead>
             <tr>
+              <td>  </td>
               <td>Voornaam</td>
               <td>Achternaam</td>
               <td>Uurloon</td>
@@ -55,6 +59,11 @@ const CrewPage = () => {
           mockDataTeam.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
           : mockDataTeam).map((id) => (
             <tr key={id.id}>
+              <td className={styles.edit}>
+                <Link href="#"className={styles.editLink}>
+                  <AiFillEdit className={styles.icon}/>
+                </Link>
+              </td>
               <td className={styles.voornaam}>{id.voornaam}</td>
               <td className={styles.achternaam}>{id.achternaam}</td>
               <td className={styles.uurloon}>{id.uurloon}</td>

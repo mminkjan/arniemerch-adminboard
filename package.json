@@ -15,11 +15,13 @@
     "@mui/icons-material": "^5.15.15",
     "@mui/system": "^5.15.15",
     "@next/eslint-plugin-next": "14.0.1",
+    "iban": "^0.0.14",
     "next": "14.0.1",
     "react": "18",
     "react-datepicker": "^6.7.1",
     "react-dom": "18",
-    "react-icons": "^4.11.0"
+    "react-icons": "^4.11.0",
+    "react-phone-number-input": "^3.3.12"
   },
   "devDependencies": {
     "eslint": "8",
