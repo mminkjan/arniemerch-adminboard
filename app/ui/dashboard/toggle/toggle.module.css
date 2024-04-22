@@ -1,0 +1,82 @@
+.toggleSwitch {
+  position: relative;
+  width: 75px;
+  display: inline-block;
+  text-align: left;
+  /* top: px; */
+  /* height: 30px; */
+}
+
+.checkbox {
+  display: none;
+  /* position: absolute;
+  left: -9999px; */
+}
+
+.label {
+  display: block;
+  overflow: hidden;
+  cursor: pointer;
+  border: 0 solid var(--dark);
+  border-radius: 10px;
+}
+
+.toggleSwitchInner {
+  display: block;
+  width: 200%;
+  margin-left: -100%;
+  transition: margin 0.3s ease-in 0s;
+}
+
+.toggleSwitchInner:before, .toggleSwitchInner:after {
+  float: left;
+  width: 50%;
+  height: 30px;
+  padding: 0;
+  line-height: 36px;
+  color: #fff;
+  font-weight: bold;
+  box-sizing: border-box;
+  align-content: center;
+  font-size: 13px;
+}
+
+.toggleSwitchInner::before {
+  content: "AAN";
+  padding-left: 10px;
+  background-color: #060;
+  color: #fff;
+}
+
+.toggleSwitchInner::after {
+  content: "UIT";
+  padding-right: 10px;
+  background-color: #bbb;
+  color: #fff;
+  text-align: right;
+}
+
+.toggleSwitchOuter {
+  display: block;
+  width: 24px;
+  margin: 5px;
+  background: #fff;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 40px;
+  border: 0 solid #bbb;
+  border-radius: 20px;
+  transition: all 0.3s ease-in 0s;
+}
+
+.checkbox:checked + .label .toggleSwitchInner {
+  margin-left: 0;
+}
+
+
+.checkbox:checked + .label .toggleSwitchOuter {
+  right: 0px;
+}
+
+

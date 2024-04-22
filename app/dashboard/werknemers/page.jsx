@@ -30,9 +30,9 @@ const CrewPage = () => {
     <div className={styles.container}>
       <div className={styles.top}>
         <Search placeholder="Search crew member"/>
-        <Link href="/dashboard/crew/add">
+        <Link href="/dashboard/werknemers/inschrijven">
           <button className={styles.addButton}>Voeg toe</button>
-        </Link>
+        </Link> 
       </div>
       <div className={styles.tablecontainer}>
         <table className={styles.mtable}>

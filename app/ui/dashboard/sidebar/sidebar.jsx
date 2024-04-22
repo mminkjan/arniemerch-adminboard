@@ -14,7 +14,7 @@ const menuItems =
       },
       {
         title: "Personeel",
-        path: "/dashboard/crew",
+        path: "/dashboard/werknemers",
         icon: <AiOutlineTeam />
       },
       {
@@ -24,7 +24,7 @@ const menuItems =
       },
       {
         title: "Betalingen",
-        path: "/dashboard/payments",
+        path: "/dashboard/betalingen",
         icon: <AiOutlineFieldTime />
       }
     ]
@@ -35,7 +35,7 @@ const Sidebar = () => {
   return (
     <div className={styles.container}>
       <div className={styles.user}>
-      <Image className={styles.userImage} src="/noavatar.png" width="50" height="50" />
+      <Image className={styles.userImage} src="/noavatar.png" width="50" height="50" alt=""/>
       <div className={styles.userDetail}>
         <span className={styles.userName}>Arnoud Maas</span>
         <span className={styles.userTitle}>CEO</span>
