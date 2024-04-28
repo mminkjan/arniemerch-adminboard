@@ -15,6 +15,11 @@
   margin-bottom: 20px;
 }
 
+.error {
+  margin-bottom: 5px;
+  color: rgb(246, 112, 112);
+}
+
 .formRow {
   display: flex;
   /* flex-wrap: wrap; */

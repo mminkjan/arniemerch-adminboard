@@ -1,11 +1,10 @@
 "use client"
 import styles from '@/app/ui/dashboard/crew/add/addcrew.module.css'
-import { use, useState } from 'react';
+import { use, useEffect, useState } from 'react';
 import Toggle from '@/app/ui/dashboard/toggle/toggle';
 import ReactDatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-phone-number-input/style.css'
-import PhoneInput from 'react-phone-number-input'
 import PhoneInputWithCountrySelect from 'react-phone-number-input';
 import 'react-phone-number-input/style.css'
 
@@ -27,10 +26,10 @@ const werknemerData = {
   IBAN: "",
   BSN: "",
   contract: {
-    name: "",
+    naam: "",
     link: "",
   },
-  loonheffing: "" ,
+  loonheffing: false ,
   loonheffingsform: {
     naam: "",
     link: "",
@@ -41,51 +40,52 @@ const werknemerData = {
 
 const AddCrew = () => {
   const [werknemer, setWerknemer] = useState(werknemerData);
+  const [loonhef, setLoonhef] = useState(false);
   const [date, setDate] = useState(new Date())
   const [telNum, setTelNum] = useState("")
-  const [contract, setContract] = useState();
-  const [loonheffingform, setLoonheffingform] = useState();
+  const [error, setError] = useState('');
 
+  useEffect(() => {
+    console.log(werknemer);
+  }, [werknemer])
 
+  useEffect(() => {
+    setWerknemer({...werknemer, loonheffing: loonhef})
+  }, [loonhef])
+
+  useEffect(() => {
+    setWerknemer({...werknemer, geboortedatum: date})
+  }, [date])
+
+  useEffect(() => {
+    setWerknemer({...werknemer, telefoon: telNum})
+  }, [telNum])
 
   const validateIban = (iban) => {
+    console.log(iban);
     var IBAN = require('iban')
-    if (IBAN.isValid(iban)){
-      setWerknemer({...werknemer, IBAN: e.target.value})
+    if (!IBAN.isValid(iban)) {
+      setError("IBAN is incorrect")
+      return (false);    
+    }
+    return (true);
+  }
+
+  const handleFileUpload = (e) => {
+    const targetName = e.target.name;
+    console.log(targetName);
+
+    if (targetName === "contract") {
+      setWerknemer({...werknemer, contract: {...werknemer.contract, naam: e.target.value}})
+    }
+    else if (targetName === "loonheffingsform"){
+      setWerknemer({...werknemer, loonheffingsform: {...werknemer.loonheffingsform, naam: e.target.value}})
     }
   }
 
-  const changeLoonheffing  = (loonheffing) => {
-    setWerknemer({...werknemer, loonheffing: loonheffing})
-  }
-
-
-  const handleContractupload = (event) => {
-    
-    // setContract(event.target.files[0])
-    setWerknemer({...werknemer, contract: {...werknemer.contract, naam: e.target.value}})
-  }
-  
-
-  const handleLoonheffin = () => {
-
-  }
-
-  const handleLoonheffingupload = (event) => {
-    
-    // setContract(event.target.files[0]);
-    setWerknemer({...werknemer, contract: {...werknemer.loonheffingsform, naam: e.target.value}})
-  }
-  
-
-
   const handleSubmit = () => {
-    setWerknemer({...werknemer, telefoon: telNum})
-    setWerknemer({...werknemer, geboortedatum: date})
-    console.log(telNum)
-    console.log(date)
-    console.log({werknemer})
-
+    setError("");
+    validateIban(werknemer.IBAN);
   }
 
 
@@ -93,6 +93,9 @@ const AddCrew = () => {
     <div className={styles.container}>
       <div className={styles.title}>
         <h3>Voeg werknemer toe</h3>
+      </div>
+      <div className={styles.error}>
+        <p>{error}</p>
       </div>
       <form  className={styles.form}>
         <div className={styles.formRow}>
@@ -126,7 +129,8 @@ const AddCrew = () => {
               name="email"
               onChange={(e) => setWerknemer({...werknemer, email: e.target.value})}
             />
-            <PhoneInputWithCountrySelect 
+            <PhoneInputWithCountrySelect
+              defaultCountry='NL'
               className={styles.phoneInput} 
               placeholder='Telefoon nummer' 
               value={telNum} 
@@ -163,7 +167,7 @@ const AddCrew = () => {
               type='text'
               placeholder='Plaatsnaam'
               name='plaatsnaam'
-              onChange={(e) =>  setWerknemer({...werknemer, adres: {...werknemer.adres, plaats: e.target.value}})}
+              onChange={(e) =>  setWerknemer({...werknemer, adres: {...werknemer.adres, woonplaats: e.target.value}})}
             />
             <input
               className={styles.inputField} 
@@ -177,22 +181,22 @@ const AddCrew = () => {
               type='text'
               placeholder="IBAN Rekeningnummer"
               name="account"
-              onChange={(e) =>  validateIban(e.target.value)}
+              onChange={(e) => setWerknemer({...werknemer, IBAN: e.target.value})}
             />
-            <div className={styles.loonheffing} onClick={() => handleLoonheffin()}>
+            <div className={styles.loonheffing} >
               <p>Loonheffingskorting</p>
-              <Toggle name="Loonheffing"/>
+              <Toggle name="loonheffing" value={loonhef} setValue={setLoonhef}/>
             </div>
           </div>
         </div>
         <div className={styles.contractBlock}>
           <div>
             <p className={styles.contractText}>Kopie Contract</p>
-            <input type='file' onChange={(e) => handleContractupload(e)} name='contract'/> 
+            <input type='file' onChange={handleFileUpload} name='contract'/> 
           </div>
           <div>
             <p className={styles.contractText}>Loonheffingsformulier</p>
-            <input type='file' onChange={(e) => handleLoonheffingupload(e)} name='loonheffingform'/>
+            <input type='file' onChange={handleFileUpload} name='loonheffingsform'/>
           </div>
         </div>
       </form>
