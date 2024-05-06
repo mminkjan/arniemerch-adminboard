@@ -2,6 +2,8 @@ import styles from "./sidebar.module.css"
 import { AiOutlineDashboard, AiOutlineTeam, AiOutlineSchedule, AiOutlineFieldTime } from "react-icons/ai";
 import MenuLink from "./menuLink/menulink.jsx"
 import Image from "next/image";
+import LogOutButton from "./button/logoutbutton";
+
 
 const menuItems = 
   {
@@ -31,6 +33,7 @@ const menuItems =
   }
 
 
+
 const Sidebar = () => {
   return (
     <div className={styles.container}>
@@ -46,6 +49,9 @@ const Sidebar = () => {
           <MenuLink item={item} key={item.title} />
         ))}
       </ul>
+      <div> 
+       <LogOutButton />
+      </div>
     </div>
   )
 }

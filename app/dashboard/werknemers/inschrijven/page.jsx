@@ -16,12 +16,12 @@ const werknemerData = {
   uurloon: 0,
   geboortedatum: new Date(),
   email: "",
-  adres: {
-    straat: "",
-    huisnummer: "",
-    postcode: " ",
-    woonplaats: "",
-  },
+  // adres: {
+  //   straat: "",
+  //   huisnummer: "",
+  //   postcode: " ",
+  //   woonplaats: "",
+  // },
   telefoon: "",
   IBAN: "",
   BSN: "",
@@ -32,7 +32,7 @@ const werknemerData = {
   loonheffing: false ,
   loonheffingsform: {
     naam: "",
-    link: "",
+
   },
   rol:"werknemer"
 }
@@ -85,7 +85,11 @@ const AddCrew = () => {
 
   const handleSubmit = () => {
     setError("");
-    validateIban(werknemer.IBAN);
+    
+     if (validateIban(werknemer.IBAN))
+     {
+
+     }
   }
 
 
