@@ -7,7 +7,11 @@ import "react-datepicker/dist/react-datepicker.css";
 import 'react-phone-number-input/style.css'
 import PhoneInputWithCountrySelect from 'react-phone-number-input';
 import 'react-phone-number-input/style.css'
+import { v4 as uuidv4 } from 'uuid';
 
+import { collection, addDoc, doc, setDoc } from 'firebase/firestore';
+import { db } from '@/app/firebase/config';
+import { useRouter } from 'next/navigation';
 
 const werknemerData = {
   id: 0,
@@ -16,12 +20,12 @@ const werknemerData = {
   uurloon: 0,
   geboortedatum: new Date(),
   email: "",
-  // adres: {
-  //   straat: "",
-  //   huisnummer: "",
-  //   postcode: " ",
-  //   woonplaats: "",
-  // },
+  adres: {
+    straat: "",
+    huisnummer: "",
+    postcode: " ",
+    woonplaats: "",
+  },
   telefoon: "",
   IBAN: "",
   BSN: "",
@@ -32,22 +36,19 @@ const werknemerData = {
   loonheffing: false ,
   loonheffingsform: {
     naam: "",
-
   },
   rol:"werknemer"
 }
 
 
 const AddCrew = () => {
+  const router = useRouter();
   const [werknemer, setWerknemer] = useState(werknemerData);
   const [loonhef, setLoonhef] = useState(false);
   const [date, setDate] = useState(new Date())
   const [telNum, setTelNum] = useState("")
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    console.log(werknemer);
-  }, [werknemer])
 
   useEffect(() => {
     setWerknemer({...werknemer, loonheffing: loonhef})
@@ -83,11 +84,18 @@ const AddCrew = () => {
     }
   }
 
-  const handleSubmit = () => {
-    setError("");
-    
+  const handleSubmit = async (e) => {
+      e.preventDefault();
      if (validateIban(werknemer.IBAN))
      {
+       try {
+          const werknemerRef = doc(collection(db, "werknemers"));
+          await setDoc(werknemerRef, werknemer);
+          console.log("document werknemer writter with ID: ", werknemerRef);
+          router.push()
+        } catch (e) {
+          console.error("Error adding document: ", e);
+        }
 
      }
   }
@@ -101,7 +109,7 @@ const AddCrew = () => {
       <div className={styles.error}>
         <p>{error}</p>
       </div>
-      <form  className={styles.form}>
+      <form onSubmit={handleSubmit} className={styles.form} >
         <div className={styles.formRow}>
           <div className={styles.formside}>
             <input
@@ -113,7 +121,8 @@ const AddCrew = () => {
               onChange={(e) => setWerknemer({...werknemer, voornaam: e.target.value})}
             />
             <input
-              className={styles.inputField} 
+              className={styles.inputField}
+              required
               type='text' 
               placeholder='Straat' 
               name="straat"
@@ -121,6 +130,7 @@ const AddCrew = () => {
             />
             <input
               className={styles.inputField}
+              required
               type='text'
               placeholder='Postcode'
               name="postcode"
@@ -128,6 +138,7 @@ const AddCrew = () => {
             />
             <input
               className={styles.inputField}
+              required
               type='text'
               placeholder='E-mail'
               name="email"
@@ -139,6 +150,7 @@ const AddCrew = () => {
               placeholder='Telefoon nummer' 
               value={telNum} 
               onChange={setTelNum}
+              required
             />
             <div className={styles.birthdateInput} >
               <p className={styles.birthdateText}>Geboortedatum</p>
@@ -147,20 +159,22 @@ const AddCrew = () => {
                 value={date}
                 selected={date} 
                 onChange={setDate}
+                required
               />
             </div>
           </div>
           <div className={styles.formside}>
           <input
+              required
               className={styles.inputField} 
               type='text'
               placeholder='Achternaam'
               name='achternaam' 
-              required
               onChange={(e) => setWerknemer({...werknemer, achternaam: e.target.value})}
             />
             <input
               className={styles.inputField}
+              required
               type='text'
               placeholder='Huisnummer'
               name="huisnummer"
@@ -168,6 +182,7 @@ const AddCrew = () => {
             />
             <input
               className={styles.inputField}
+              required
               type='text'
               placeholder='Plaatsnaam'
               name='plaatsnaam'
@@ -175,6 +190,7 @@ const AddCrew = () => {
             />
             <input
               className={styles.inputField} 
+              required
               type='text' 
               placeholder='Bsn' 
               name='bsn'
@@ -182,14 +198,28 @@ const AddCrew = () => {
             />
             <input
               className={styles.inputField}
+              required
               type='text'
               placeholder="IBAN Rekeningnummer"
               name="account"
               onChange={(e) => setWerknemer({...werknemer, IBAN: e.target.value})}
             />
-            <div className={styles.loonheffing} >
-              <p>Loonheffingskorting</p>
-              <Toggle name="loonheffing" value={loonhef} setValue={setLoonhef}/>
+            <div className={styles.loon}>
+              <div className={styles.loonheffing} >
+                <label>Loonheffingskorting</label>
+                <Toggle name="loonheffing" value={loonhef} setValue={setLoonhef}/>
+              </div>
+              <div>
+                <label>Uurloon</label>
+                <input
+                  type='number'
+                  step="0.01"
+                  required
+                  className={styles.looninput}
+                  onChange={(e) => setWerknemer({...werknemer, uurloon: parseFloat(e.target.value)})}
+                />
+              </div>
+
             </div>
           </div>
         </div>
@@ -203,10 +233,10 @@ const AddCrew = () => {
             <input type='file' onChange={handleFileUpload} name='loonheffingsform'/>
           </div>
         </div>
-      </form>
       <div className={styles.submit}>
-        <button className={styles.submitButton} onClick={() => handleSubmit()}>Opslaan</button>
+        <button type="submit" className={styles.submitButton}>Opslaan</button>
       </div>
+      </form>
     </div>
   )
 }

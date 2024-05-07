@@ -51,7 +51,6 @@ const Sidebar = () => {
       </ul>
       <div className={styles.footer}>
         <LogOutButton />
-
       </div>
 
     </div>

@@ -28,8 +28,10 @@ const LoginPage = () => {
       console.log({res});
       setEmail('');
       setPassword('');
+      setError("");
       router.push("/dashboard");
     } catch(e) {
+      setError(e);
       console.error(e);
     }
   };
@@ -44,7 +46,7 @@ const LoginPage = () => {
 
       <main className={styles.main}>
         <h1 className={styles.title}>Login</h1>
-        <p> </p>
+        <p> {error} </p>
         <form onSubmit={handleSubmit} className={styles.form}>
           <input
             type="email"

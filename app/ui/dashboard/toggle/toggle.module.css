@@ -1,8 +1,9 @@
 .toggleSwitch {
   position: relative;
-  width: 75px;
+  width: 60px;
   display: inline-block;
   text-align: left;
+  margin-left: 5px;
   /* top: px; */
   /* height: 30px; */
 }
@@ -43,14 +44,16 @@
 
 .toggleSwitchInner::before {
   content: "AAN";
-  padding-left: 10px;
+  padding-left: 5px;
   background-color: #060;
   color: #fff;
+  font-size: 12px;
 }
 
 .toggleSwitchInner::after {
   content: "UIT";
-  padding-right: 10px;
+  font-size: 12px;
+  padding-right: 5px;
   background-color: #bbb;
   color: #fff;
   text-align: right;
@@ -58,13 +61,13 @@
 
 .toggleSwitchOuter {
   display: block;
-  width: 24px;
+  width: 21px;
   margin: 5px;
   background: #fff;
   position: absolute;
   top: 0;
   bottom: 0;
-  right: 40px;
+  right: 30px;
   border: 0 solid #bbb;
   border-radius: 20px;
   transition: all 0.3s ease-in 0s;
