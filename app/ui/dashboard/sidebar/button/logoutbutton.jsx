@@ -1,12 +1,14 @@
 "use client"
 import { auth } from "@/app/firebase/config";
 import { signOut } from "firebase/auth";
-// import styles from "./logoutbutton.module.css";
+import { AiOutlineLogout } from "react-icons/ai";
+import styles from "./logoutbutton.module.css";
 
 const LogOutButton = ({}) => {
   return (
-    <button onClick={() => signOut(auth)} >
-      {/* TO Do at logout icon */}
+    <button className={styles.button} onClick={() => signOut(auth)} >
+      <AiOutlineLogout />
+      <label>Log uit</label>
     </button>
   
   )

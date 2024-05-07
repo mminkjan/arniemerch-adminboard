@@ -4,6 +4,9 @@
   padding-top: 40px;
   height: 100vh;
   width: max-content;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .user {
@@ -34,5 +37,12 @@
 
 .list {
   list-style: none;
+  margin-bottom: auto;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 

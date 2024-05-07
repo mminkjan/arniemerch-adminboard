@@ -49,9 +49,11 @@ const Sidebar = () => {
           <MenuLink item={item} key={item.title} />
         ))}
       </ul>
-      <div> 
-       <LogOutButton />
+      <div className={styles.footer}>
+        <LogOutButton />
+
       </div>
+
     </div>
   )
 }
