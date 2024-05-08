@@ -12,6 +12,7 @@ import { collection, doc, setDoc } from 'firebase/firestore';
 import { db } from '@/app/firebase/config';
 import { useRouter } from 'next/navigation';
 import CSVParserComponet from '@/app/ui/dashboard/parser/csvparser';
+import Papa from 'papaparse';
 
 const werknemerData = {
   id: 0,
@@ -38,13 +39,26 @@ const werknemerData = {
 const AddCrew = () => {
   const router = useRouter();
   const [werknemer, setWerknemer] = useState(werknemerData);
+  const [csvData, setCsvData] = useState([]);
   const [loonhef, setLoonhef] = useState(false);
   const [dateContract, setDateContract] = useState(new Date())
   const [dateBirth, setDateBirth] = useState(new Date())
   const [telNum, setTelNum] = useState("")
   const [error, setError] = useState('');
 
+  const onUploadFile = (file) => {
+    Papa.parse(file, {
+      header: true,
+      complete: function(results) {
+        setCsvData(results.data);
+      }
+    });
+  };
 
+  const handleSubmitCsv = () => {
+
+  };
+  
 // can these 4 useEffects be written more efficient? Although this looks straightforward
   useEffect(() => {
     setWerknemer({...werknemer, loonheffing: loonhef})
@@ -71,6 +85,8 @@ const AddCrew = () => {
     return (true);
   };
 
+ 
+
   const handleSubmit = async (e) => {
       e.preventDefault();
      if (validateIban(werknemer.IBAN))
@@ -92,7 +108,15 @@ const AddCrew = () => {
   return (
     <>
     <div className={styles.container}>
-     <CSVParserComponet />
+      <div className={styles.upload}>
+        <h3>Upload CSV</h3>
+        <input type='file' onChange={(e) => onUploadFile(e.target.files[0])}></input>
+        <CSVParserComponet csvData={csvData}/>
+        <div>
+        {csvData.length > 0 && 
+          <button className={styles.submitButton} onClick={handleSubmitCsv}>Opslaan</button>}
+      </div>
+      </div>
     </div>
     <div className={styles.container}>
       <div className={styles.title}>

@@ -5,6 +5,7 @@
   overflow-y: auto;
   overflow-x: auto;
   color: var(--dark);
+  margin-bottom: 20px;
 }
 
 .table {
@@ -34,13 +35,3 @@
   border: 1px solid var(--dark);
 }
 
-.button {
-  margin-top: 20px;
-  background-color: var(--highlight);
-  color: var(--text);
-  height: 40px;
-  width: 100%;
-  border-radius: 10px;
-  border: 0px solid var(--highlight);
-  font-size: 20px;
-}
