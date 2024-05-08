@@ -1,16 +1,16 @@
 "use client"
 import styles from '@/app/ui/dashboard/crew/add/addcrew.module.css'
-import { use, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Toggle from '@/app/ui/dashboard/toggle/toggle';
 import ReactDatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-phone-number-input/style.css'
 import PhoneInputWithCountrySelect from 'react-phone-number-input';
 import 'react-phone-number-input/style.css'
-import { v4 as uuidv4 } from 'uuid';
 
-import { collection, addDoc, doc, setDoc } from 'firebase/firestore';
+import { collection, doc, setDoc } from 'firebase/firestore';
 import { db } from '@/app/firebase/config';
+import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import { useRouter } from 'next/navigation';
 
 const werknemerData = {
@@ -29,14 +29,9 @@ const werknemerData = {
   telefoon: "",
   IBAN: "",
   BSN: "",
-  contract: {
-    naam: "",
-    link: "",
-  },
+  contract: File,
   loonheffing: false ,
-  loonheffingsform: {
-    naam: "",
-  },
+  loonheffingsform: File,
   rol:"werknemer"
 }
 
@@ -50,6 +45,7 @@ const AddCrew = () => {
   const [error, setError] = useState('');
 
 
+// can these 3 useEffects be written more efficient? Although this looks straightforward
   useEffect(() => {
     setWerknemer({...werknemer, loonheffing: loonhef})
   }, [loonhef])
@@ -63,7 +59,6 @@ const AddCrew = () => {
   }, [telNum])
 
   const validateIban = (iban) => {
-    console.log(iban);
     var IBAN = require('iban')
     if (!IBAN.isValid(iban)) {
       setError("IBAN is incorrect")
@@ -74,13 +69,28 @@ const AddCrew = () => {
 
   const handleFileUpload = (e) => {
     const targetName = e.target.name;
-    console.log(targetName);
 
     if (targetName === "contract") {
-      setWerknemer({...werknemer, contract: {...werknemer.contract, naam: e.target.value}})
+      setWerknemer({...werknemer, contract: e.target.files[0]})
     }
     else if (targetName === "loonheffingsform"){
-      setWerknemer({...werknemer, loonheffingsform: {...werknemer.loonheffingsform, naam: e.target.value}})
+      setWerknemer({...werknemer, loonheffingsform: e.target.files[0]})
+    }
+  }
+
+  const uploadFiles = (id) => {
+    const storage = getStorage();
+    if (werknemer.contract) {
+      const contractRef = ref(storage, `contracts/${id}`);
+      uploadBytes(contractRef, werknemer.contract).then((snapshot) => {
+        console.log("Uploaded contract");
+      })
+    }
+    if (werknemer.loonheffingsform) {
+      const loonheffingRef = ref(storage, `loonheffing/${id}`);
+      uploadBytes(loonheffingRef, werknemer.loonheffingsform).then((snapshot) => {
+        console.log("Uploaded loonheffingsformulier");
+      })
     }
   }
 
@@ -90,11 +100,12 @@ const AddCrew = () => {
      {
        try {
           const werknemerRef = doc(collection(db, "werknemers"));
+          uploadFiles(werknemerRef.id);
           const upDatedWerknemer = {...werknemer, id: werknemerRef.id}
           setWerknemer(upDatedWerknemer);
-          await setDoc(werknemerRef, upDatedWerknemer);
-          console.log("document werknemer writter with ID: ", werknemerRef);
-          router.push()
+          // await setDoc(werknemerRef, upDatedWerknemer);
+          // console.log("document werknemer writter with ID: ", werknemerRef);
+          // router.push()
         } catch (e) {
           console.error("Error adding document: ", e);
         }

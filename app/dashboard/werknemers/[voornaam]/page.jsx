@@ -7,6 +7,10 @@ const Werknemer = () => {
         <thead>Voornaam</thead>
         <td>Malou</td>
       </tr>
+      <tr>
+        <thead>Voornaam</thead>
+        <td>Malou</td>
+      </tr>
     </table>
   )
 }
