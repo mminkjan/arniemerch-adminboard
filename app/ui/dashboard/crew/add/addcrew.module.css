@@ -55,19 +55,11 @@
   padding-left: 10px;
 }
 
-.birthdateInput {
+.dateInput {
   display: flex;
   justify-content: space-between;
-}
-
-.birthdateText {
-  font-size: 12px;
-  align-self: center;
-}
-
-.dateInput {
+  align-items: center;
   height: 30px;
-  padding-left: 10px;
 }
 
 .loon {

@@ -10,8 +10,8 @@ import 'react-phone-number-input/style.css'
 
 import { collection, doc, setDoc } from 'firebase/firestore';
 import { db } from '@/app/firebase/config';
-import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import { useRouter } from 'next/navigation';
+import CSVParserComponet from '@/app/ui/dashboard/parser/csvparser';
 
 const werknemerData = {
   id: 0,
@@ -29,9 +29,8 @@ const werknemerData = {
   telefoon: "",
   IBAN: "",
   BSN: "",
-  contract: File,
   loonheffing: false ,
-  loonheffingsform: File,
+  contractDatum: new Date(),
   rol:"werknemer"
 }
 
@@ -40,19 +39,24 @@ const AddCrew = () => {
   const router = useRouter();
   const [werknemer, setWerknemer] = useState(werknemerData);
   const [loonhef, setLoonhef] = useState(false);
-  const [date, setDate] = useState(new Date())
+  const [dateContract, setDateContract] = useState(new Date())
+  const [dateBirth, setDateBirth] = useState(new Date())
   const [telNum, setTelNum] = useState("")
   const [error, setError] = useState('');
 
 
-// can these 3 useEffects be written more efficient? Although this looks straightforward
+// can these 4 useEffects be written more efficient? Although this looks straightforward
   useEffect(() => {
     setWerknemer({...werknemer, loonheffing: loonhef})
   }, [loonhef])
 
   useEffect(() => {
-    setWerknemer({...werknemer, geboortedatum: date})
-  }, [date])
+    setWerknemer({...werknemer, contractDatum: dateContract})
+  }, [dateContract])
+
+  useEffect(() => {
+    setWerknemer({...werknemer, geboortedatum: dateBirth})
+  }, [dateBirth])
 
   useEffect(() => {
     setWerknemer({...werknemer, telefoon: telNum})
@@ -65,34 +69,7 @@ const AddCrew = () => {
       return (false);    
     }
     return (true);
-  }
-
-  const handleFileUpload = (e) => {
-    const targetName = e.target.name;
-
-    if (targetName === "contract") {
-      setWerknemer({...werknemer, contract: e.target.files[0]})
-    }
-    else if (targetName === "loonheffingsform"){
-      setWerknemer({...werknemer, loonheffingsform: e.target.files[0]})
-    }
-  }
-
-  const uploadFiles = (id) => {
-    const storage = getStorage();
-    if (werknemer.contract) {
-      const contractRef = ref(storage, `contracts/${id}`);
-      uploadBytes(contractRef, werknemer.contract).then((snapshot) => {
-        console.log("Uploaded contract");
-      })
-    }
-    if (werknemer.loonheffingsform) {
-      const loonheffingRef = ref(storage, `loonheffing/${id}`);
-      uploadBytes(loonheffingRef, werknemer.loonheffingsform).then((snapshot) => {
-        console.log("Uploaded loonheffingsformulier");
-      })
-    }
-  }
+  };
 
   const handleSubmit = async (e) => {
       e.preventDefault();
@@ -100,21 +77,23 @@ const AddCrew = () => {
      {
        try {
           const werknemerRef = doc(collection(db, "werknemers"));
-          uploadFiles(werknemerRef.id);
           const upDatedWerknemer = {...werknemer, id: werknemerRef.id}
           setWerknemer(upDatedWerknemer);
-          // await setDoc(werknemerRef, upDatedWerknemer);
-          // console.log("document werknemer writter with ID: ", werknemerRef);
-          // router.push()
+          await setDoc(werknemerRef, upDatedWerknemer);
+          console.log("document werknemer writter with ID: ", werknemerRef);
+          router.push()
         } catch (e) {
           console.error("Error adding document: ", e);
         }
 
      }
-  }
-
+  };
 
   return (
+    <>
+    <div className={styles.container}>
+     <CSVParserComponet />
+    </div>
     <div className={styles.container}>
       <div className={styles.title}>
         <h3>Voeg werknemer toe</h3>
@@ -165,14 +144,28 @@ const AddCrew = () => {
               onChange={setTelNum}
               required
             />
-            <div className={styles.birthdateInput} >
-              <p className={styles.birthdateText}>Geboortedatum</p>
+            <div className={styles.dateInput} >
+              <label className={styles.dateText}>Geboortedatum</label>
+              <label className={styles.dateText}>mm/dd/yyyy</label>
               <ReactDatePicker
                 className={styles.dateInput}
-                value={date}
-                selected={date} 
-                onChange={setDate}
+                value={dateBirth}
+                selected={dateBirth} 
+                onChange={setDateBirth}
                 required
+                name='birth'
+              />
+            </div>
+            <div className={styles.dateInput} >
+              <label className={styles.dateText}>Start Contract</label>
+              <label className={styles.dateText}>mm/dd/yyyy</label>
+              <ReactDatePicker
+                className={styles.dateInput}
+                value={dateContract}
+                selected={dateContract} 
+                onChange={setDateContract}
+                required
+                name='contract'
               />
             </div>
           </div>
@@ -217,12 +210,12 @@ const AddCrew = () => {
               name="account"
               onChange={(e) => setWerknemer({...werknemer, IBAN: e.target.value})}
             />
-            <div className={styles.loon}>
+            
               <div className={styles.loonheffing} >
                 <label>Loonheffingskorting</label>
                 <Toggle name="loonheffing" value={loonhef} setValue={setLoonhef}/>
               </div>
-              <div>
+              <div className={styles.dateInput}>
                 <label>Uurloon</label>
                 <input
                   type='number'
@@ -232,18 +225,6 @@ const AddCrew = () => {
                   onChange={(e) => setWerknemer({...werknemer, uurloon: parseFloat(e.target.value)})}
                 />
               </div>
-
-            </div>
-          </div>
-        </div>
-        <div className={styles.contractBlock}>
-          <div>
-            <p className={styles.contractText}>Kopie Contract</p>
-            <input type='file' onChange={handleFileUpload} name='contract'/> 
-          </div>
-          <div>
-            <p className={styles.contractText}>Loonheffingsformulier</p>
-            <input type='file' onChange={handleFileUpload} name='loonheffingsform'/>
           </div>
         </div>
       <div className={styles.submit}>
@@ -251,6 +232,7 @@ const AddCrew = () => {
       </div>
       </form>
     </div>
+    </>
   )
 }
 
