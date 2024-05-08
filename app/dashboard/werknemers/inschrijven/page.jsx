@@ -86,17 +86,13 @@ const AddCrew = () => {
 
   const handleSubmit = async (e) => {
       e.preventDefault();
-    // Top do fix id 
      if (validateIban(werknemer.IBAN))
      {
        try {
           const werknemerRef = doc(collection(db, "werknemers"));
-          let werknemerID = {...werknemer};
-          werknemerID = {...werknemerID, id: werknemerRef};
-          console.log(werknemerID.id);
-          setWerknemer(async (...werknemerID) => {
-            await setDoc(werknemerRef, werknemerID);
-          });
+          const upDatedWerknemer = {...werknemer, id: werknemerRef.id}
+          setWerknemer(upDatedWerknemer);
+          await setDoc(werknemerRef, upDatedWerknemer);
           console.log("document werknemer writter with ID: ", werknemerRef);
           router.push()
         } catch (e) {
